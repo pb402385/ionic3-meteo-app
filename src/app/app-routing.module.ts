@@ -14,7 +14,9 @@ const routes: Routes = [
   {
     path: 'list',
     loadChildren: './list/list.module#ListPageModule'
-  }
+  },
+  { path: 'my-meteo', loadChildren: './my-meteo/my-meteo.module#MyMeteoPageModule' },
+  { path: 'meteo-detail', loadChildren: './meteo-detail/meteo-detail.module#MeteoDetailPageModule' }
 ];
 
 @NgModule({
