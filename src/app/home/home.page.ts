@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { ApiMeteoService } from '../service/api-meteo.service';
 import { ErrorService } from '../service/error.service';
 
-//import { AlertController } from 'ionic-angular';
+import { AlertController } from 'ionic-angular';
 
 @Component({
   selector: 'app-home',
@@ -12,21 +12,10 @@ import { ErrorService } from '../service/error.service';
 })
 export class HomePage {
   private selectedItem: any;
-  private icons = [
-    'flask',
-    'wifi',
-    'beer',
-    'football',
-    'basketball',
-    'paper-plane',
-    'american-football',
-    'boat',
-    'bluetooth',
-    'build'
-  ];
+
 
   public myloc: any = null;
-  public items: Array<{ title: string; note: string; icon: string }> = [];
+  public items: Array<{ temperature: string; ville: string; icon: string }> = [];
 
 
   public currentLat: any = null;
@@ -34,7 +23,7 @@ export class HomePage {
 
 
   constructor(
-    //private alertCtrl: AlertController
+    //public alertCtrl: AlertController,
     public apiMeteo: ApiMeteoService,
     public errorService: ErrorService
     ) {
@@ -42,13 +31,8 @@ export class HomePage {
       //On récupère la météo par géolocalisation
       this.findMe();
 
-    for (let i = 1; i < 11; i++) {
-      this.items.push({
-        title: 'Item ' + i,
-        note: 'This is item #' + i,
-        icon: this.icons[Math.floor(Math.random() * this.icons.length)]
-      });
-    }
+      //On récupère les favoris
+      this.getFavoris();
   }
 
   ngOnInit() {
@@ -69,7 +53,6 @@ export class HomePage {
   /**
    * Bouton Pour récupérer la ville
    */
-
   presentPrompt() {
     /*
     let alert = this.alertCtrl.create({
@@ -107,6 +90,24 @@ export class HomePage {
 
   isValid(ville:string){
     return true;
+  }
+
+
+  getFavoris(){
+    let item = JSON.parse(localStorage.getItem("myloc"));
+    let length = localStorage.length;
+    if(null !== item && length > 1 ){
+      for(let i = 1; i < length-1; i++){
+        let favori = JSON.parse(localStorage.getItem(""+i));
+
+        this.items.push({
+          temperature: favori.main.temp, 
+          ville: favori.name + " ("+favori.sys.country+")",
+          icon: "https://openweathermap.org/img/w/"+favori.weather[0].icon+".png" 
+        });
+
+      }
+    }
   }
 
 

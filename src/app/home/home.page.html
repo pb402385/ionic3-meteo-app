@@ -13,6 +13,7 @@
   Ma géolocalisation:
 </ion-label>
 
+<!--  *ngIf="myloc !== null" -->
 <ion-item>
     <img src="{{myloc.icon}}" item-start>
     <!--<ion-icon [name]="myloc.icon" slot="start"></ion-icon>-->
@@ -26,14 +27,16 @@
   Favoris:
 </ion-label>
 
+<!--  *ngIf="items.length > 0" -->
 <ion-content>
     <ion-list>
-      <ion-item *ngFor="let item of items">
-        <ion-icon [name]="item.icon" slot="start"></ion-icon>
-        {{item.title}}
-        <div class="item-note" slot="end">
-          {{item.note}}
-        </div>
+      <ion-item>
+          <img src="{{item.icon}}" item-start>
+          <!--<ion-icon [name]="myloc.icon" slot="start"></ion-icon>-->
+          {{item.temperature}}
+          <div class="item-note" slot="end">
+            {{item.ville}}
+          </div>
       </ion-item>
     </ion-list>
     <!--

@@ -15,6 +15,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { ApiMeteoService } from './service/api-meteo.service';
 import { ErrorService } from './service/error.service';
 
+import { AlertController } from 'ionic-angular';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -23,6 +25,7 @@ import { ErrorService } from './service/error.service';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    //AlertController,
     HttpModule
   ],
   providers: [
