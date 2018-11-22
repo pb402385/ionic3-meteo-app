@@ -1,10 +1,11 @@
-<ion-header>
+<ion-header id="ionHeader">
     <ion-toolbar>
-          <button ion-button large style="float:left;width:25%;border-radius:25px;background-color: deepskyblue;">
-            <ion-icon name="home" style="font-size: 200%;color: honeydew;"></ion-icon>
+          <button ion-button id="buttonHome" large style="float:left;width:25%;border-radius:25px;background-color: deepskyblue;" color="primary" (click)="changeColorDelay('buttonHome');" clear icon-only> 
+            <ion-icon name="home" style="font-size: 200%;color: honeydew;" is-active="false"></ion-icon>
           </button>
-          <button ion-button large style="float:right;width:25%;border-radius:25px;background-color: deepskyblue;" (click)="presentAlertPrompt()">
-            <ion-icon name="add" style="font-size: 200%;color: honeydew;"></ion-icon>
+
+          <button ion-button id="buttonPlus" large style="float:right;width:25%;border-radius:25px;background-color: deepskyblue;" (click)="presentAlertPrompt();changeColor('buttonPlus','init');"  clear icon-only>
+            <ion-icon name="add" style="font-size: 200%;color: honeydew;"  is-active="false"></ion-icon>
           </button>
     </ion-toolbar>
 </ion-header>

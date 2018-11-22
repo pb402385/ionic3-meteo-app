@@ -1,6 +1,6 @@
 <ion-header *ngIf="elem !== null">
     <ion-toolbar>
-          <button ion-button large style="float:left;width:100%;" (click)="goHome()" style="float:center;width:100%;border-radius:25px;background-color: deepskyblue;">
+          <button ion-button large (click)="goHome()" style="float:center;width:100%;border-radius:25px;background-color: deepskyblue;">
             <ion-icon name="home" style="font-size: 200%;color: honeydew;"></ion-icon>
           </button>
     </ion-toolbar>
@@ -20,15 +20,15 @@
           </td>
       </tr>
     </table>
-    <ion-card-header>
+    <ion-card-header style="padding: 0px 20px 5px;">
         <ion-card-title>{{formatDate(elem.list[itemShown].dt)}} : {{elem.city.name}} ({{elem.city.country}})</ion-card-title>
     </ion-card-header>
     <ion-card-content>
         <p> Température: {{elem.list[itemShown].main.temp}} °C</p>
 
-        <p> TempératureMax: <span style="color:red">{{elem.list[itemShown].main.temp_max}} °C</span></p>
+        <p> Maximum: <span style="color:red">{{elem.list[itemShown].main.temp_max}} °C</span></p>
         
-        <p> TempératureMin: <span style="color:blue">{{elem.list[itemShown].main.temp_min}} °C</span></p>
+        <p> Minimum: <span style="color:blue">{{elem.list[itemShown].main.temp_min}} °C</span></p>
         
         <p> Pression: {{elem.list[itemShown].main.pressure}}</p>
                    

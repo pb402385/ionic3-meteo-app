@@ -21,7 +21,8 @@ export class ErrorService {
       header: 'Alert',
       subHeader: service,
       message: message,
-      buttons: ['OK']
+      buttons: ['Ok'],
+      cssClass: 'profalert'
     });
 
     await alert.present();

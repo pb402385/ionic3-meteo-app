@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 
-const API_URL = "http://api.openweathermap.org/data/2.5/weather";
-const API_URL_ID = "http://api.openweathermap.org/data/2.5/forecast";
+const API_URL = "https://api.openweathermap.org/data/2.5/weather";
+const API_URL_ID = "https://api.openweathermap.org/data/2.5/forecast";
 
 const APP_ID = "&APPID=dcdfa133415e1fa8eddae2f34f5b07a4&units=metric";
 

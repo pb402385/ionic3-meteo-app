@@ -80,11 +80,13 @@ export class HomePage {
           cssClass: 'secondary',
           handler: () => {
             console.log('Confirm Cancel');
+            this.changeColor('buttonPlus','reset');
           }
         }, {
           text: 'Valider',
           handler: data => {
             console.log(data.ville);
+            this.changeColor('buttonPlus','reset');
             if(this.isValid(data.ville)){
               this.saveVille(data.ville);
             }else{
@@ -198,6 +200,19 @@ export class HomePage {
     } else {
       alert("Geolocation is not supported by this browser.");
     }
+  }
+
+
+  changeColor(id,evt) {
+    if(evt == "init") document.getElementById(id).style.backgroundColor = "#0066cc";
+    if(evt == "reset") document.getElementById(id).style.backgroundColor = "deepskyblue";
+  }
+
+  changeColorDelay(id) {
+    document.getElementById(id).style.backgroundColor = "#0066cc";
+    setTimeout(function(){ 
+      document.getElementById(id).style.backgroundColor = "deepskyblue";
+    }, 150);
   }
 
 }
