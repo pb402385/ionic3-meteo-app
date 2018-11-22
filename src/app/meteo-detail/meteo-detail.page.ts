@@ -58,7 +58,7 @@ export class MeteoDetailPage implements OnInit {
       }else{
           this.errorService.errorManagement("Erreur lors de la récupération pour l'affichage par détail (Pas d'identifiant)","erreurDetail",this);
       }
-    }
+    });
 
   }
 
