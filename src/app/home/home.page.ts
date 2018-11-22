@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { ApiMeteoService } from '../service/api-meteo.service';
 import { ErrorService } from '../service/error.service';
 
-import { AlertController } from 'ionic-angular';
+import { AlertController, Nav  } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -21,21 +21,23 @@ export class HomePage {
   public currentLat: any = null;
   public currentLong: any = null;
 
+  public alrt:any = null;
+
 
   constructor(
-    //public alertCtrl: AlertController,
+    public alertController: AlertController,
     public apiMeteo: ApiMeteoService,
-    public errorService: ErrorService
+    public errorService: ErrorService,
+    //public nav: Nav
     ) {
-
-      //On récupère la météo par géolocalisation
-      this.findMe();
 
       //On récupère les favoris
       this.getFavoris();
   }
 
   ngOnInit() {
+    //On récupère la météo par géolocalisation
+    this.findMe();
   }
   // add back when alpha.4 is out
   // navigate(item) {
@@ -47,48 +49,67 @@ export class HomePage {
 
 
 
+  /**
+   * Item list click
+   */
+  itemClick(index){
+    alert("item clicked "+index);
+  }
 
 
 
   /**
    * Bouton Pour récupérer la ville
    */
-  presentPrompt() {
-    /*
-    let alert = this.alertCtrl.create({
-      title: 'Entrez une ville',
+  async presentAlertPrompt() {
+    const alert = await this.alertController.create({
+      header: 'Entrez une ville!',
       inputs: [
         {
           name: 'ville',
+          type: 'text',
           placeholder: 'Ville'
         }
       ],
       buttons: [
         {
-          text: 'Cancel',
+          text: 'Annuler',
           role: 'cancel',
-          handler: data => {
-            console.log('Cancel clicked');
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
           }
-        },
-        {
+        }, {
           text: 'Valider',
           handler: data => {
-            if (this.isValid(data.ville)) {
-              //On cherche la ville via le web service
-            } else {
-              //Sinon on ne fait rien
-              return false;
+            console.log(data.ville);
+            if(this.isValid(data.ville)){
+              this.saveVille(data.ville);
+            }else{
+              this.errorService.errorManagement("Erreur lors de la récupération par ville (ville déjà entrée)","erreurVille",this);
             }
           }
         }
       ]
     });
-    alert.present();
-    */
+
+    await alert.present();
   }
+ 
 
   isValid(ville:string){
+    let item = JSON.parse(localStorage.getItem("myloc"));
+    let length = localStorage.length;
+
+    if (item !== null) length = length -1;
+
+    for(let i = 0; i < length; i++){
+      let item = JSON.parse(localStorage.getItem(""+i)); 
+      let villeToCompare = item.name;
+      if(ville.toUpperCase() === villeToCompare.toUpperCase()){
+        return false;
+      }
+    }
     return true;
   }
 
@@ -96,18 +117,50 @@ export class HomePage {
   getFavoris(){
     let item = JSON.parse(localStorage.getItem("myloc"));
     let length = localStorage.length;
-    if(null !== item && length > 1 ){
-      for(let i = 1; i < length-1; i++){
+
+    if (item !== null) length = length -1;
+
+      for(let i = 0; i < length; i++){
         let favori = JSON.parse(localStorage.getItem(""+i));
 
         this.items.push({
-          temperature: favori.main.temp, 
+          temperature: favori.main.temp+" °C", 
           ville: favori.name + " ("+favori.sys.country+")",
           icon: "https://openweathermap.org/img/w/"+favori.weather[0].icon+".png" 
         });
 
       }
-    }
+    
+  }
+
+  saveVille(ville){
+    this.apiMeteo.getWeatherFromCityName(ville).subscribe(
+      response => {
+
+        //Objet pour insérer nos données une à unes dans le tableau angular material design
+        let responseJSON = response.body;
+
+        let id = localStorage.length;
+        if(localStorage.getItem("myloc") !== null) id = id -1;
+
+        localStorage.setItem(""+id, JSON.stringify(responseJSON));
+        let item = JSON.parse(localStorage.getItem(""+id));
+
+        let itemTab = 
+          { 
+            temperature: item.main.temp, 
+            ville: item.name + " ("+item.sys.country+")",
+            icon: "https://openweathermap.org/img/w/"+item.weather[0].icon+".png" 
+          };
+
+        this.items.push(itemTab);
+
+      },
+      error =>{
+        //En cas d'ereur on affiche le message d'erreur
+        if(error) this.errorService.errorManagement("Erreur lors de la récupération par ville","erreurVille",this);
+      } 
+    );
   }
 
 
@@ -128,7 +181,7 @@ export class HomePage {
 
             this.myloc = 
               { 
-                temperature: item.main.temp, 
+                temperature: item.main.temp+" °C", 
                 ville: item.name + " ("+item.sys.country+")",
                 icon: "https://openweathermap.org/img/w/"+item.weather[0].icon+".png" 
               };
