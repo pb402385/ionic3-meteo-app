@@ -3,7 +3,9 @@ import { Component } from '@angular/core';
 import { ApiMeteoService } from '../service/api-meteo.service';
 import { ErrorService } from '../service/error.service';
 
-import { AlertController, Nav  } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
+
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -28,7 +30,7 @@ export class HomePage {
     public alertController: AlertController,
     public apiMeteo: ApiMeteoService,
     public errorService: ErrorService,
-    //public nav: Nav
+    private router: Router,
     ) {
 
       //On récupère les favoris
@@ -53,7 +55,7 @@ export class HomePage {
    * Item list click
    */
   itemClick(index){
-    alert("item clicked "+index);
+    this.router.navigate(['/meteo-detail?id='+index]);
   }
 
 

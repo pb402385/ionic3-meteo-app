@@ -1,20 +1,20 @@
 <ion-header>
     <ion-toolbar>
-          <button ion-button large style="float:left;">
-            <ion-icon name="home"></ion-icon>
+          <button ion-button large style="float:left;width:25%;border-radius:25px;background-color: deepskyblue;">
+            <ion-icon name="home" style="font-size: 200%;color: honeydew;"></ion-icon>
           </button>
-          <button ion-button large style="float:right;" (click)="presentAlertPrompt()">
-            <ion-icon name="add"></ion-icon>
+          <button ion-button large style="float:right;width:25%;border-radius:25px;background-color: deepskyblue;" (click)="presentAlertPrompt()">
+            <ion-icon name="add" style="font-size: 200%;color: honeydew;"></ion-icon>
           </button>
     </ion-toolbar>
 </ion-header>
 
-<ion-label>
+<ion-label style="background-color: deepskyblue;font-style: italic;color: honeydew;font-size: 125%;">
   Ma géolocalisation:
 </ion-label>
 
 <!--  *ngIf="myloc !== null" -->
-<ion-item *ngIf="myloc !== null">
+<ion-item *ngIf="myloc !== null" href="/meteo-detail?id=myloc" id="myloc">
     <img src="{{myloc.icon}}" item-start>
     <!--<ion-icon [name]="myloc.icon" slot="start"></ion-icon>-->
     {{myloc.temperature}}
@@ -23,14 +23,14 @@
     </div>
 </ion-item>
 
-<ion-label>
+<ion-label style="background-color: deepskyblue;font-style: italic;color: honeydew;font-size: 125%;">
   Favoris:
 </ion-label>
 
 <!--  *ngIf="items.length > 0" -->
 <ion-content>
     <ion-list *ngFor="let item of items; let i = index;">
-      <ion-item (click)="itemClick(i)">
+      <ion-item href="/meteo-detail?id={{i}}" id="ville={{i}}" style="background-image: url('assets/icon/cloudy.jpg');">
           <img src="{{item.icon}}" item-start>
           <!--<ion-icon [name]="myloc.icon" slot="start"></ion-icon>-->
           {{item.temperature}}

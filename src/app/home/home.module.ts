@@ -5,6 +5,7 @@ import { IonicModule, AlertController } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 
 import { HomePage } from './home.page';
+import { MeteoDetailPage } from '../meteo-detail/meteo-detail.page';
 
 @NgModule({
   imports: [

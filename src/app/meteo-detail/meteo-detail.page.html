@@ -1,9 +1,92 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>meteo-detail</ion-title>
-  </ion-toolbar>
+<ion-header *ngIf="elem !== null">
+    <ion-toolbar>
+          <button ion-button large style="float:left;width:100%;" (click)="goHome()" style="float:center;width:100%;border-radius:25px;background-color: deepskyblue;">
+            <ion-icon name="home" style="font-size: 200%;color: honeydew;"></ion-icon>
+          </button>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-card *ngIf="elem !== null && itemShown !== null">
+    <table style="width:100%">
+        <tr>
+          <td  style="width:25%">
+            <ion-img src="https://openweathermap.org/img/w/{{elem.list[itemShown].weather[0].icon}}.png"></ion-img>
+          </td>
+          <td  style="width:25%">
 
+          </td>
+          <td  style="width:50%">
+              <span>{{elem.list[itemShown].weather[0].main}} ({{elem.list[itemShown].weather[0].description}})</span>
+          </td>
+      </tr>
+    </table>
+    <ion-card-header>
+        <ion-card-title>{{formatDate(elem.list[itemShown].dt)}} : {{elem.city.name}} ({{elem.city.country}})</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+        <p> Température: {{elem.list[itemShown].main.temp}} °C</p>
+
+        <p> TempératureMax: <span style="color:red">{{elem.list[itemShown].main.temp_max}} °C</span></p>
+        
+        <p> TempératureMin: <span style="color:blue">{{elem.list[itemShown].main.temp_min}} °C</span></p>
+        
+        <p> Pression: {{elem.list[itemShown].main.pressure}}</p>
+                   
+        <p> Humidité: {{elem.list[itemShown].main.humidity}}</p>
+        
+        <p> Vitesse vent: {{elem.list[itemShown].wind.speed}}</p>
+    </ion-card-content>
+</ion-card>
+
+
+<ion-content>
+    <ion-list>
+      <ion-item *ngIf="elem !== null" (click)="show(0)" id="0">
+          {{formatDate(elem.list[0].dt)}}
+          <img src="https://openweathermap.org/img/w/{{elem.list[0].weather[0].icon}}.png" item-start>
+          {{elem.list[0].main.temp}} °C
+          <div class="item-note" slot="end">
+            {{elem.city.name}}
+          </div>
+      </ion-item>
+
+      <ion-item *ngIf="elem !== null" (click)="show(7)" id="7">
+          {{formatDate(elem.list[7].dt)}}
+          <img src="https://openweathermap.org/img/w/{{elem.list[7].weather[0].icon}}.png" item-start>
+          {{elem.list[7].main.temp}} °C
+          <div class="item-note" slot="end">
+            {{elem.city.name}}
+          </div>
+      </ion-item>
+
+      <ion-item *ngIf="elem !== null" (click)="show(15)" id="15">
+          {{formatDate(elem.list[15].dt)}}
+          <img src="https://openweathermap.org/img/w/{{elem.list[15].weather[0].icon}}.png" item-start>
+          {{elem.list[15].main.temp}} °C
+          <div class="item-note" slot="end">
+            {{elem.city.name}}
+          </div>
+      </ion-item>
+
+      <ion-item *ngIf="elem !== null" (click)="show(23)" id="23">
+          {{formatDate(elem.list[23].dt)}}
+          <img src="https://openweathermap.org/img/w/{{elem.list[23].weather[0].icon}}.png" item-start>
+          {{elem.list[23].main.temp}} °C
+          <div class="item-note" slot="end">
+            {{elem.city.name}}
+          </div>
+      </ion-item>
+
+      <ion-item *ngIf="elem !== null" (click)="show(31)" id="31">
+          {{formatDate(elem.list[31].dt)}}
+          <img src="https://openweathermap.org/img/w/{{elem.list[31].weather[0].icon}}.png" item-start>
+          {{elem.list[31].main.temp}} °C
+          <div class="item-note" slot="end">
+            {{elem.city.name}}
+          </div>
+      </ion-item>
+
+  </ion-list>
 </ion-content>
+
+

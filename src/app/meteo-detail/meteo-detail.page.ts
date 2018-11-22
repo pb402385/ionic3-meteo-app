@@ -3,6 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { ApiMeteoService } from '../service/api-meteo.service';
 import { ErrorService } from '../service/error.service';
 
+import { ActivatedRoute, Router } from '@angular/router';
+
+
 @Component({
   selector: 'app-meteo-detail',
   templateUrl: './meteo-detail.page.html',
@@ -14,36 +17,49 @@ export class MeteoDetailPage implements OnInit {
 
   public elem: any = null;
 
+  public itemShown: number = null;
+
   constructor(
     public apiMeteo: ApiMeteoService,
-    public errorService: ErrorService
+    public errorService: ErrorService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
-/*
-      //TODO Récupérer l'id de la ville
-      this.id = "0";
 
-      let item = JSON.parse(localStorage.getItem(this.id));
-      //On récupère l'id
-      let idVille = item.id;
+  }
 
-      //On récupère les données
-      this.apiMeteo.getWeatherFromId(idVille).subscribe(
-        response => {
-
-          //Objet pour insérer nos données une à unes dans le tableau angular material design
-          let responseJSON = response.body;
-          this.saveItem(responseJSON,""+this.id);
-
-        },
-        error =>{
-          //En cas d'ereur on affiche le message d'erreur
-          if(error) this.errorService.errorManagement("Erreur lors de la récupération pour l'affichage par détail","erreurDetail",this);
-        } 
-      );
-*/
-   }
 
   ngOnInit() {
+
+    //TODO Récupérer l'id de la ville
+    this.route.queryParamMap.subscribe(params => {
+
+        //Paramètres retournés après l'appel au web service Patch pour l'acceptation/refus pour afficher un log de succès
+        if(params.get("id")){
+
+          let item = JSON.parse(localStorage.getItem(params.get("id")));
+          //On récupère l'id
+          let idVille = item.id;
+
+          //On récupère les données
+          this.apiMeteo.getWeatherFromId(idVille).subscribe(
+            response => {
+
+              //Objet pour insérer nos données une à unes dans le tableau angular material design
+              let responseJSON = response.body;
+              this.saveItem(responseJSON,""+this.id);
+
+            },
+            error =>{
+              //En cas d'ereur on affiche le message d'erreur
+              if(error) this.errorService.errorManagement("Erreur lors de la récupération pour l'affichage par détail","erreurDetail",this);
+            } 
+          );
+      }else{
+          this.errorService.errorManagement("Erreur lors de la récupération pour l'affichage par détail (Pas d'identifiant)","erreurDetail",this);
+      }
+    }
+
   }
 
   saveItem(responseJSON:any,id:string){
@@ -65,6 +81,27 @@ export class MeteoDetailPage implements OnInit {
 
     let dateFormatted = day+"/"+month+"/"+d.getFullYear();
     return dateFormatted;
+  }
+
+  show(num:number){
+    this.itemShown = num;
+    this.clear();
+    document.getElementById(""+num).style.border = "2px double black";
+    document.getElementById(""+num).style.borderRadius = "2px";
+  }
+
+  clear(){
+    document.getElementById("0").style.border = "none";
+    document.getElementById("7").style.border = "none";
+    document.getElementById("15").style.border = "none";
+    document.getElementById("23").style.border = "none";
+    document.getElementById("31").style.border = "none";
+  }
+
+  goHome(){
+
+    this.router.navigate(['/home']);
+
   }
 
 }
