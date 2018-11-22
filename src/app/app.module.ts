@@ -14,6 +14,8 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { ApiMeteoService } from './service/api-meteo.service';
 import { ErrorService } from './service/error.service';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,7 +25,8 @@ import { ErrorService } from './service/error.service';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    HttpModule
+    HttpModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     StatusBar,
